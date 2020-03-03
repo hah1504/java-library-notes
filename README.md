@@ -149,6 +149,91 @@
   - Introduced by JDK 5, StringBuilder is a relatively recent addition to Java’s string handling capabilities. StringBuilder is similar to StringBuffer except for one important difference: it is not synchronized, which means that it is not thread-safe. The advantage of StringBuilderis faster performance. However, in cases in which a mutable string will be accessed by multiple threads, and no external synchronization is employed, you must use StringBuffer rather than StringBuilder.
 
 
+### java.lang
+- `java.lang` is automatically imported into all programs
+- It is Java’s most widely used package.
+- Primitve Type Wrappers
+  - Java uses primitive types, such as int and char, for performance reasons. These data types are not part of the object hierarchy. They are passed by value to methods and cannot be directly passed by reference. 
+  - Also, there is no way for two methods to refer to the same instance of an int. 
+  - `Number`
+    - The abstract class Number defines a superclass that is implemented by the classes that wrap the numeric types byte, short, int, long, float, and double. 
+    - Number has abstract methods that return the value of the object in each of the different number formats. For example, doubleValue( ) returns the value as a double, floatValue( ) returns the value as a float, and so on. 
+      - byte byteValue( )
+      - double doubleValue( )
+      - float floatValue( )
+      - int intValue( )
+      - long longValue( )
+      - short shortValue( )
+    - Number has concrete subclasses that hold explicit values of each primitive numeric type: Double, Float, Byte, Short, Integer, and Long.
+    - Double and Float are wrappers for floating-point values of type double and float, respectively. Constructors for Float and Double
+      - Float(double num)
+      - Float(float num)
+      - Float(String str) throws NumberFormatException
+      - Double(double num)
+      - Double(String str) throws NumberFormatException
+    - Double(Float) objects can be constructed with a double(double/float) value or a string containing a floating-point value.
+    - Difference between Double.valueOf() and Double.parseDouble(). Applies for Float, Double, Integer too. ![](valueOf_parseInt.png). Also see [this](https://www.geeksforgeeks.org/integer-valueof-vs-integer-parseint-with-examples/)
+    - Important methods defined by Float
+      - `static float max(float val, float val2)`: Returns the maximum of val and val2. (Added by JDK 8.)
+      - `static float min(float val, float val2)`
+      - `static String toHexString(float num)`: Returns a string containing the value of num in hexadecimal format.
+      - `int intValue( )`: Returns the value of the invoking object as an int.
+      - `static int compare(float num1, float num2)`: Compares the values of num1 and num2. Returns 0 if the values are equal. Returns a negative value if num1 is less than num2. Returns a positive value if num1 is greater than num2.
+    - Important methods defined by Double
+      - `static int compare(double num1, double num2)`
+      - `static String toHexString(double num)`
+    - Important methods defined by Integer
+      - `static int bitCount(int num)`: Returns the number of set bits in num.
+      - `static int reverse(int num)`: Reverses the order of the bits in num and returns the result.
+      - `static int rotateLeft(int num, int n)`: Returns the result of rotating num left n positions.
+      - `static int rotateRight(int num, int n)`: Returns the result of rotating num right n positions.
+      - `static String toBinaryString(int num)`: Returns a string that contains the binary equivalent of num
+      - `static String toOctalString(int num)`
+    - `Character` wrapper: Character is a simple wrapper around a char. The constructor for Character is: `Character(char ch)`
+      - To obtain the char value contained in a Character object, call `charValue( )`
+      - Character includes several static methods that categorize characters and alter their case. [Char Demo](https://github.com/zed1025/java-library-notes/blob/master/IsDemo.java)
+      - Character defines two methods, forDigit( ) and digit( ), that enable you to convert between integer values and the digits they represent. 
+        - `static char forDigit(int num, int radix)`: forDigit( ) returns the digit character associated with the value of num. The radix of the conversion is specified by radix. 
+        - `static int digit(char digit, int radix)`: digit( ) returns the integer value associated with the specified character (which is presumably a digit) according to the specified radix.
+- **Memory Management**
+  - Although Java provides automatic garbage collection, sometimes you will want to know how large the object heap is and how much of it is left. You can use this information, for example, to check your code for efficiency or to approximate how many more objects of a certain type can be instantiated. 
+  - To obtain these values, use the `totalMemory( )` and `freeMemory( )`methods.
+  - Java’s garbage collector runs periodically to recycle unused objects. However, sometimes you will want to collect discarded objects prior to the collector’s next appointed rounds. You can run the garbage collector on demand by calling the gc( ) method. A good thing to try is to call gc( ) and then call freeMemory( ) to get a baseline memory usage. Next, execute your code and call freeMemory( ) again to see how much memory it is allocating. The following program illustrates this idea: [Forced Memory Mgt](https://github.com/zed1025/java-library-notes/blob/master/MemoryDemo.java)
+- [Running Other Programs](https://github.com/zed1025/java-library-notes/blob/master/ExecDemo.java)
+- [Running Other Programs 2](https://github.com/zed1025/java-library-notes/blob/master/ExecDemoFini.java)
+- [Timing Program Execution](https://github.com/zed1025/java-library-notes/blob/master/Elapse.java)
+- Math Class
+  - The Math class contains all the floating-point functions that are used for geometry and trigonometry, as well as several general-purpose methods. 
+  - Math defines two doubleconstants: E (approximately 2.72) and PI (approximately 3.14).
+  - Trigonometric functions
+    - `static double sin(double arg)`: Returns the sine of the angle specified by arg in radians.
+    - `static double cos(double arg)`
+    - `static double tan(double arg)`
+    - `static double asin(double arg)`: Returns the angle whose sine is specified by arg.
+    - `static double acos(double arg)`
+    - `static double atan(double arg)`
+    - `static double atan2(double x, double y)`: Returns the angle whose tangent is x/y.
+    - `static double sinh(double arg)`: Returns the hyperbolic sine of the angle specified by arg
+    - `static double cosh(double arg)`
+    - `static double tanh(double arg)`
+  - Exponential Functions
+    - `static double cbrt(double arg)`: Returns the cube root of arg
+    - `static double exp(double arg)`: Returns e to the arg.
+    - `static double expm1(double arg)`: Returns e to the arg–1.
+    - `static double log(double arg)`: Returns the natural logarithm of arg
+    - `static double log10(double arg)`: Returns the base 10 logarithm for arg.
+    - `static double log1p(double arg)`: Returns the natural logarithm for arg + 1.
+    - `static double pow(double y, double x)`: Returns y raised to the x; for example, pow(2.0, 3.0) returns 8.0.
+    - `static double sqrt(double arg)`: Returns the square root of arg.
+  - Rounding Functions
+    - `static int abs(int arg)`, available for float, double, long
+    - `static double ceil(double arg)`
+    - `static double floor(double arg)`
+  - Misc
+    - `static int max(int x, int y)`, available for long, float, double
+  - 
+
+
 
 https://github.com/zed1025/java-library-notes/blob/master/.java
 
@@ -181,6 +266,8 @@ https://github.com/zed1025/java-library-notes/blob/master/.java
 - [StringBuffer Delete Demo](https://github.com/zed1025/java-library-notes/blob/master/deleteDemo.java)
 - [StringBuffer Replace Demo](https://github.com/zed1025/java-library-notes/blob/master/replaceDemo2.java)
 - [StringBuffer indexOf Demo](https://github.com/zed1025/java-library-notes/blob/master/indexOfDemo.java)
+- [Char Demo](https://github.com/zed1025/java-library-notes/blob/master/IsDemo.java)
+- [Forced Memory Mgt](https://github.com/zed1025/java-library-notes/blob/master/MemoryDemo.java)
 
 
 
