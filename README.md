@@ -261,7 +261,7 @@
 ### Collection Framework
 - Collection Interfaces
 - Beginning with the collection interfaces is necessary because they determine the fundamental nature of the collection classes. Put differently, the concrete classes simply provide different implementations of the standard interfaces. The interfaces that underpin collections are summarized in the following table: ![](collection_interfaces.png)
-- The `Collection` Interface
+- **The `Collection` Interface**
   - The Collection interface is the foundation upon which the Collections Framework is built because it must be implemented by any class that defines a collection. 
   - Declaration: `interface Collection<E>`, Here, E specifies the type of objects that the collection will hold. Collection extends the Iterable interface. This means that all collections can be cycled through by use of the for-each style for loop.
   - Recall that only classes that implement `Iterable` can be cycled through by the `for`.
@@ -280,25 +280,25 @@
     - `int size( )`
     - `Object[ ] toArray( )`: Returns an array that contains all the elements stored in the invoking collection. The array elements are copies of the collection elements.
     - `boolean retainAll(Collection<?> c)`: Removes all elements from the invoking collection except those in c. Returns true if the collection changed (i.e., elements were removed). Otherwise, returns false.
-- The `List` Interface
+- **The `List` Interface**
   - The List interface extends Collection and declares the behavior of a collection that stores a sequence of elements. 
   - Elements can be inserted or accessed by their position in the list, using a zero-based index. A list may contain duplicate elements.
   - Declaration: `interface List<E>`. Here, E specifies the type of objects that the list will hold.
   - Methods. ![](list_interface.png)
-- The `Set` Interface
+- **The `Set` Interface**
   - The Set interface defines a set. It extends Collection and specifies the behavior of a collection that does not allow duplicate elements. 
   - Therefore, the `add( )` method returns `false` if an attempt is made to add duplicate elements to a set.
   - It does not specify any additional methods of its own. Set is a generic interface that has this declaration: `interface Set<E>`
-- The `SortedSet` Interface
+- **The `SortedSet` Interface**
   - The SortedSet interface extends Set and declares the behavior of a set sorted in ascending order. SortedSet is a generic interface that has this declaration: `interface SortedSet<E>`
   - In addition to those methods provided by Set, the SortedSet interface declares the following methods ![](sorted_set_interface.png)
-- The `NavigableSet` Interface
+- **The `NavigableSet` Interface**
   - The NavigableSet interface extends SortedSet and declares the behavior of a collection that supports the retrieval of elements based on the closest match to a given value or values. NavigableSet is a generic interface that has this declaration: `interface NavigableSet<E>`
   - Method list on Page 507
-- The `Queue` Interface
+- **The `Queue` Interface**
   - The Queue interface extends Collection and declares the behavior of a queue, which is often a first-in, first-out list. However, there are types of queues in which the ordering is based upon other criteria. Queue is a generic interface that has this declaration: `interface Queue<E>`
   - ![](queue.png)
-- The `Deque` Interface
+- **The `Deque` Interface**
   - The Deque interface extends Queue and declares the behavior of a double-ended queue. Double-ended queues can function as standard, first-in, first-out queues or as last-in, first-out stacks. Deque is a generic interface that has this declaration: `interface Deque<E>`
   - ![](dequeue.png)
 - **The Collection Classes**
@@ -320,19 +320,121 @@
       - LinkedList( )
       - LinkedList(Collection<? extends E> c)
     - Because LinkedList implements the Deque interface, you have access to the methods defined by Deque. For example, to add elements to the start of a list, you can use `addFirst( )` or `offerFirst( )`. To add elements to the end of the list, use `addLast( )` or `offerLast( )`. To obtain the first element, you can use `getFirst( )` or `peekFirst( )`. To obtain the last element, use `getLast( )` or `peekLast( )`. To remove the first element, use `removeFirst( )` or `pollFirst( )`. To remove the last element, use `removeLast( )` or `pollLast( )`.
-    - [Linked List Demo](LinkedListDemo.java)
+    - [Linked List Demo](https://github.com/zed1025/java-library-notes/blob/master/LinkedListDemo.java)
+    - Because LinkedList implements the List interface, calls to add(E) append items to the end of the list, as do calls to addLast( ). To insert items at a specific location, use the add(int, E) form of add( ), as illustrated by the call to add(1, "A2") in the example.
+    - Notice how the third element in ll is changed by employing calls to `get( )` and `set( )`. To obtain the current value of an element, pass get( ) the index at which the element is stored. To assign a new value to that index, pass `set( )` the index and its new value.
+  - ****The `HashSet` Class**
+    - HashSet extends AbstractSet and implements the Set interface. 
+    - `HashSet` stores data using the Hashing mechanism. 
+    - In hashing, the informational content of a key is used to determine a unique value, called its hash code. The hash code is then used as the index at which the data associated with the key is stored
+    - The transformation of the key into its hash code is performed automatically — you never see the hash code itself. 
+    - Also, your code can’t directly index the hash table. The advantage of hashing is that it allows the execution time of `add( )`, `contains( )`, `remove( )`, and `size( )` to remain constant even for large sets.
+    - Constructors
+      - `HashSet( )`
+      - `HashSet(Collection<? extends E> c)`
+      - `HashSet(int capacity)`
+      - `HashSet(int capacity, float fillRatio)`
+    - The first form constructs a default hash set. The second form initializes the hash set by using the elements of c. The third form initializes the capacity of the hash set to capacity. (The default capacity is 16.) The fourth form initializes both the capacity and the fill ratio (also called _load capacity_ ) of the hash set from its arguments. The fill ratio must be between 0.0 and 1.0, and it determines how full the hash set can be before it is resized upward. Specifically, when the number of elements is greater than the capacity of the hash set multiplied by its _fill ratio_, the hash set is expanded. For constructors that do not take a fill ratio, _0.75_ is used.
+    - It is important to note that HashSet does not guarantee the order of its elements, because the process of hashing doesn’t usually lend itself to the creation of sorted sets. If you need sorted storage, then another collection, such as TreeSet, is a better choice.
+    - [HashSet Demo](https://github.com/zed1025/java-library-notes/blob/master/HashSetDemo.java)
+  - **The `LinkedHashSet` Class**
+    - The LinkedHashSet class extends HashSet and adds no members of its own.
+    - LinkedHashSet maintains a linked list of the entries in the set, in the order in which they were inserted. This allows insertion-order iteration over the set. That is, when cycling through a LinkedHashSet using an iterator, the elements will be returned in the order in which they were inserted
+    -  To see the effect of LinkedHashSet, try substituting LinkedHashSet for HashSet in the preceding program. The output will be in the order in which the elements were inserted.
+ -  **The `TreeSet` Class**
+    - TreeSet extends AbstractSet and implements the NavigableSet interface. 
+    - It creates a collection that uses a tree for storage. 
+    - Objects are stored in sorted, ascending order. 
+    - Access and retrieval times are quite fast, which makes TreeSet an excellent choice when storing large amounts of sorted information that must be found quickly.
+    - TreeSet has the following constructors:
+      - `TreeSet( )`
+      - `TreeSet(Collection<? extends E> c)`
+      - `TreeSet(Comparator<? super E> comp)`
+      - `TreeSet(SortedSet<E> ss)`
+    - The first form constructs an empty tree set that will be sorted in ascending order according to the natural order of its elements. The second form builds a tree set that contains the elements of c. The third form constructs an empty tree set that will be sorted according to the comparator specified by comp. (Comparators are described later) The fourth form builds a tree set that contains the elements of ss.
+    - [TreeSet Demo](https://github.com/zed1025/java-library-notes/blob/master/TreeSetDemo.java)
+    - Because TreeSet implements the NavigableSet interface, you can use the methods defined by NavigableSet to retrieve elements of a TreeSet. For example, assuming the preceding program, the following statement uses subSet( ) to obtain a subset of ts that contains the elements between C (inclusive) and F (exclusive). It then displays the resulting set. 
+  - **The `PriorityQueue` Class**
+    - PriorityQueue extends AbstractQueue and implements the Queue interface. It creates a queue that is prioritized based on the queue’s comparator.
+    - PriorityQueue defines the six constructors shown here:
+      - `PriorityQueue( )`
+      - `PriorityQueue(int capacity)`
+      - `PriorityQueue(Comparator<? super E> comp) (Added by JDK 8.)`
+      - `PriorityQueue(int capacity, Comparator<? super E> comp)`
+      - `PriorityQueue(Collection<? extends E> c)`
+      - `PriorityQueue(PriorityQueue<? extends E> c)`
+      - `PriorityQueue(SortedSet<? extends E> c)`
+    - If no comparator is specified when a PriorityQueue is constructed, then the default comparator for the type of data stored in the queue is used. The default comparator will order the queue in ascending order. Thus, the head of the queue will be the smallest value. 
+    - [Priority Queue with custom comparator](https://github.com/zed1025/java-library-notes/blob/master/PQExample.java)
+  - [Methods](https://www.geeksforgeeks.org/priority-queue-class-in-java-2/) in PriorityQueue class:
+    - boolean add(E element): This method inserts the specified element into this priority queue.
+    - public remove(): This method removes a single instance of the specified element from this queue, if it is present
+    - public poll(): This method retrieves and removes the head of this queue, or returns null if this queue is empty.
+    - public peek(): This method retrieves, but does not remove, the head of this queue, or returns null if this queue is empty.
+    - Iterator iterator(): Returns an iterator over the elements in this queue.
+    boolean contains(Object o): This method returns true if this queue contains the specified element
+    - void clear(): This method is used to remove all of the contents of the priority queue.
+    - boolean offer(E e): This method is used to insert a specific element into the priority queue.
+    - int size(): The method is used to return the number of elements present in the set.
+    - toArray(): This method is used to return an array containing all of the elements in this queue.
+    - Comparator comparator(): The method is used to return the comparator that can be used to order the elements of the queue.
+  - **The `ArrayDeque` Class**
+    - The ArrayDeque class extends AbstractCollection and implements the Deque interface. It adds no methods of its own. ArrayDeque creates a dynamic array and has no capacity restrictions. 
+    - Constructors
+      - `ArrayDeque( )`
+      - `ArrayDeque(int size)`
+      - `ArrayDeque(Collection<? extends E> c)`
+- Using an Iterator
+  - In general, to use an iterator to cycle through the contents of a collection, follow these steps:
+    1. Obtain an iterator to the start of the collection by calling the collection’s iterator( )method
+    2. Set up a loop that makes a call to hasNext( ). Have the loop iterate as long as hasNext( ) returns true.
+    3. Within the loop, obtain each element by calling next( ).
+  - [Iterator Demo](https://github.com/zed1025/java-library-notes/blob/master/IteratorDemo.java)
+  - If you won’t be modifying the contents of a collection or obtaining elements in reverse order, then the **for-each** version of the for loop is often a more convenient alternative to cycling through a collection than is using an iterator. Recall that the for can cycle through any collection of objects that implement the Iterable interface. Because all of the collection classes implement this interface, they can all be operated upon by the for.
+- **Map Classes**
+  - **The `HashMap` Class**
+    - The HashMap class extends AbstractMap and implements the Map interface. 
+    - It uses a hash table to store the map. This allows the execution time of get( ) and put( ) to remain constant even for large sets. 
+    - HashMap is a generic class that has this declaration: `class HashMap<K, V>`
+    - Here, K specifies the type of keys, and V specifies the type of values.
+    - Constructors
+      - `HashMap( )`
+      - `HashMap(Map<? extends K, ? extends V> m)`
+      - `HashMap(int capacity)`
+      - `HashMap(int capacity, float fillRatio)`
+    - HashMap implements Map and extends AbstractMap. It does not add any methods of its own.
+    - You should note that a hash map does not guarantee the order of its elements. Therefore, the order in which elements are added to a hash map is not necessarily the order in which they are read by an iterator.
+    - [HashMap Demo](HashMapDemo.java) 
+    - The program begins by creating a hash map and then adds the mapping of names to balances. Next, the contents of the map are displayed by using a set-view, obtained by calling entrySet( ). The keys and values are displayed by calling the getKey( ) and getValue( )methods that are defined by Map.Entry. Pay close attention to how the deposit is made into John Doe’s account. The put( ) method automatically replaces any preexisting value that is associated with the specified key with the new value. Thus, after John Doe’s account is updated, the hash map will still contain just one "John Doe" account.
+    - See `TreeMap`
+- If you want to order elements a different way, then specify a Comparator when you construct the set or map. Doing so gives you the ability to govern precisely how elements are stored within sorted collections and maps.
+  - It defines two methods
+    - `int compare(T obj1, T obj2)`: obj1 and obj2 are the objects to be compared. Normally, this method returns zero if the objects are equal. It returns a positive value if obj1 is greater than obj2. Otherwise, a negative value is returned. 
+    - `boolean equals(object obj)`: Here, obj is the object to be tested for equality. The method returns true if obj and the invoking object are both Comparator objects and use the same ordering. Otherwise, it returns false. Overriding equals( ) is not necessary, and most simple comparators will not do so.
+  - [Custom Comparator demo](https://github.com/zed1025/java-library-notes/blob/master/CompDemo.java) 
+- [Collection Algorithm Demo](https://github.com/zed1025/java-library-notes/blob/master/AlgorithmsDemo.java)
+- [Arrays Class Demo](https://github.com/zed1025/java-library-notes/blob/master/ArraysDemo.java)
+- Legacy Classes
+  - Vector
+  - Stack
+  - Dictionary
+  - Hashtable
+  - Properties: Properties is a subclass of Hashtable. It is used to maintain lists of values in which the key is a String and the value is also a String.
 
 
 
 
-<!-- https://github.com/zed1025/java-library-notes/blob/master/.java -->
+
+<!-- https://github.com/zed1025/java-library-notes/blob/master/ -->
 
 
 
 ### List of Collection classes and the Data Structure they implement
-- Dynamic Arrays: ArrayList, Vectors
-- Linked Lists: LinkedList
-- 
+- Dynamic Arrays: `ArrayList`, `Vectors`
+- Linked Lists: `LinkedList`
+- Hash Table: `HashSet`, `LinkedHashSet`, `HashMap`
+- Priority Queue: `PriorityQueue`
+- Trees: 
 
 
 
@@ -366,4 +468,12 @@
 - [Forced Memory Mgt](https://github.com/zed1025/java-library-notes/blob/master/MemoryDemo.java)
 - [Example 1](https://github.com/zed1025/java-library-notes/blob/master/ArrayListDemo.java)
 - [Converting ArrayList to Array](https://github.com/zed1025/java-library-notes/blob/master/ArrayListToArray.java)
+- [Linked List Demo](https://github.com/zed1025/java-library-notes/blob/master/LinkedListDemo.java)
+- [HashSet Demo](https://github.com/zed1025/java-library-notes/blob/master/HashSetDemo.java)
+- [TreeSet Demo](https://github.com/zed1025/java-library-notes/blob/master/TreeSetDemo.java)
+- [Priority Queue with custom comparator](https://github.com/zed1025/java-library-notes/blob/master/PQExample.java)
+- [Iterator Demo](https://github.com/zed1025/java-library-notes/blob/master/IteratorDemo.java)
+- [Custom Comparator demo](https://github.com/zed1025/java-library-notes/blob/master/CompDemo.java) 
+- [Collection Algorithm Demo](https://github.com/zed1025/java-library-notes/blob/master/AlgorithmsDemo.java)
+- [Arrays Class Demo](https://github.com/zed1025/java-library-notes/blob/master/ArraysDemo.java)
 
