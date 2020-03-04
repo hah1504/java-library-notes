@@ -1,5 +1,9 @@
 # Java Libraries Usage Notes
 
+## Links
+- https://www.geeksforgeeks.org/java-tricks-competitive-programming-java-8/
+- 
+
 ## Standard Libraries
 
 ### String Handling
@@ -231,12 +235,104 @@
     - `static double floor(double arg)`
   - Misc
     - `static int max(int x, int y)`, available for long, float, double
-  - 
 
 
 
-https://github.com/zed1025/java-library-notes/blob/master/.java
+### Scanner class
+- It reads formatted input and converts it into its binary form. Scanner can be used to read input from the console, a file, a string, or any source that implements the Readable interface or ReadableByteChannel. 
+- For example, you can use Scanner to read a number from the keyboard and assign its value to a variable. 
+- This next line creates a Scanner that reads from standard input, which is the keyboard by default: `Scanner conin = new Scanner(System.in);`
+- Scanner defines two sets of methods that enable you to read input. 
+  - The first are the hasNextX methods. These methods determine if the specified type of input is available. For example, calling hasNextInt( )returns true only if the next token to be read is an integer. If the desired data is available, then you read it by calling one of Scanner’s nextX methods
+    - `boolean hasNext( )`: Returns true if another token of any type is available to be read. Returns false otherwise.
+    - `boolean hasNextDouble( )`
+    - `boolean hasNextFloat( )`
+    - `boolean hasNextInt( )`
+    - `String next( )`: Returns the next token of any type from the input source.
+    - `double nextDouble( )`: Returns the next token as a double value.
+    - `float nextFloat( )`
+    - `int nextInt( )`
+    - `String nextLine( )`
+    - `long nextLong( )`
 
+
+
+
+### Collection Framework
+- Collection Interfaces
+- Beginning with the collection interfaces is necessary because they determine the fundamental nature of the collection classes. Put differently, the concrete classes simply provide different implementations of the standard interfaces. The interfaces that underpin collections are summarized in the following table: ![](collection_interfaces.png)
+- The `Collection` Interface
+  - The Collection interface is the foundation upon which the Collections Framework is built because it must be implemented by any class that defines a collection. 
+  - Declaration: `interface Collection<E>`, Here, E specifies the type of objects that the collection will hold. Collection extends the Iterable interface. This means that all collections can be cycled through by use of the for-each style for loop.
+  - Recall that only classes that implement `Iterable` can be cycled through by the `for`.
+  - Refer Page 502 for full collection of methods of the Collection Interface
+  - Some Important Methods
+    - `boolean add(E obj)`
+    - `boolean addAll(Collection<? extends E> c)`
+    - `void clear( )`: Removes all elements from the invoking collection.
+    - `boolean contains(Object obj)`: Returns true if obj is an element of the invoking collection. Otherwise, returns false
+    - `boolean containsAll(Collection<?> c)`: Returns true if the invoking collection contains all elements of c. Otherwise, returns false.
+    - `boolean equals(Object obj)`: Returns true if the invoking collection and obj are equal. Otherwise, returns false.
+    - `boolean isEmpty( )`
+    - `Iterator<E> iterator( )`: Returns an iterator for the invoking collection.
+    - `boolean remove(Object obj)`
+    - `boolean removeAll(Collection<?> c)`
+    - `int size( )`
+    - `Object[ ] toArray( )`: Returns an array that contains all the elements stored in the invoking collection. The array elements are copies of the collection elements.
+    - `boolean retainAll(Collection<?> c)`: Removes all elements from the invoking collection except those in c. Returns true if the collection changed (i.e., elements were removed). Otherwise, returns false.
+- The `List` Interface
+  - The List interface extends Collection and declares the behavior of a collection that stores a sequence of elements. 
+  - Elements can be inserted or accessed by their position in the list, using a zero-based index. A list may contain duplicate elements.
+  - Declaration: `interface List<E>`. Here, E specifies the type of objects that the list will hold.
+  - Methods. ![](list_interface.png)
+- The `Set` Interface
+  - The Set interface defines a set. It extends Collection and specifies the behavior of a collection that does not allow duplicate elements. 
+  - Therefore, the `add( )` method returns `false` if an attempt is made to add duplicate elements to a set.
+  - It does not specify any additional methods of its own. Set is a generic interface that has this declaration: `interface Set<E>`
+- The `SortedSet` Interface
+  - The SortedSet interface extends Set and declares the behavior of a set sorted in ascending order. SortedSet is a generic interface that has this declaration: `interface SortedSet<E>`
+  - In addition to those methods provided by Set, the SortedSet interface declares the following methods ![](sorted_set_interface.png)
+- The `NavigableSet` Interface
+  - The NavigableSet interface extends SortedSet and declares the behavior of a collection that supports the retrieval of elements based on the closest match to a given value or values. NavigableSet is a generic interface that has this declaration: `interface NavigableSet<E>`
+  - Method list on Page 507
+- The `Queue` Interface
+  - The Queue interface extends Collection and declares the behavior of a queue, which is often a first-in, first-out list. However, there are types of queues in which the ordering is based upon other criteria. Queue is a generic interface that has this declaration: `interface Queue<E>`
+  - ![](queue.png)
+- The `Deque` Interface
+  - The Deque interface extends Queue and declares the behavior of a double-ended queue. Double-ended queues can function as standard, first-in, first-out queues or as last-in, first-out stacks. Deque is a generic interface that has this declaration: `interface Deque<E>`
+  - ![](dequeue.png)
+- **The Collection Classes**
+  - **The `ArrayList` Class**
+    - The ArrayList class extends AbstractList and implements the List interface. ArrayList is a generic class that has this declaration: `class ArrayList<E>`. Here, E specifies the type of objects that the list will hold.
+    - ArrayList supports _dynamic arrays_ that can grow as needed. 
+    - An ArrayList can dynamically increase or decrease in size. Array lists are created with an initial size. When this size is exceeded, the collection is automatically enlarged. When objects are removed, the array can be shrunk.
+    - ArrayList has the following constructors
+      - `ArrayList( )`
+      - `ArrayList(Collection<? extends E> c)`
+      - `ArrayList(int capacity)`
+    - [Example 1](https://github.com/zed1025/java-library-notes/blob/master/ArrayListDemo.java)
+    - Although the capacity of an ArrayList object increases automatically as objects are stored in it, you can increase the capacity of an ArrayList object manually by calling `void ensureCapacity( int capaity )`. You might want to do this if you know in advance that you will be storing many more items in the collection than it can currently hold. By increasing its capacity once, at the start, you can prevent several reallocations later. Because reallocations are costly in terms of time, preventing unnecessary ones improves performance.
+    - Conversely, if you want to reduce the size of the array that underlies an ArrayListobject so that it is precisely as large as the number of items that it is currently holding, call `trimToSize( )`
+    - [Converting ArrayList to Array](https://github.com/zed1025/java-library-notes/blob/master/ArrayListToArray.java)
+  - **The `LinkedList` Class**
+    - The LinkedList class extends AbstractSequentialList and implements the List, Deque, and Queue interfaces. It provides a linked-list data structure. 
+    - Constructors
+      - LinkedList( )
+      - LinkedList(Collection<? extends E> c)
+    - Because LinkedList implements the Deque interface, you have access to the methods defined by Deque. For example, to add elements to the start of a list, you can use `addFirst( )` or `offerFirst( )`. To add elements to the end of the list, use `addLast( )` or `offerLast( )`. To obtain the first element, you can use `getFirst( )` or `peekFirst( )`. To obtain the last element, use `getLast( )` or `peekLast( )`. To remove the first element, use `removeFirst( )` or `pollFirst( )`. To remove the last element, use `removeLast( )` or `pollLast( )`.
+    - [Linked List Demo](LinkedListDemo.java)
+
+
+
+
+<!-- https://github.com/zed1025/java-library-notes/blob/master/.java -->
+
+
+
+### List of Collection classes and the Data Structure they implement
+- Dynamic Arrays: ArrayList, Vectors
+- Linked Lists: LinkedList
+- 
 
 
 
@@ -268,8 +364,6 @@ https://github.com/zed1025/java-library-notes/blob/master/.java
 - [StringBuffer indexOf Demo](https://github.com/zed1025/java-library-notes/blob/master/indexOfDemo.java)
 - [Char Demo](https://github.com/zed1025/java-library-notes/blob/master/IsDemo.java)
 - [Forced Memory Mgt](https://github.com/zed1025/java-library-notes/blob/master/MemoryDemo.java)
-
-
-
-
+- [Example 1](https://github.com/zed1025/java-library-notes/blob/master/ArrayListDemo.java)
+- [Converting ArrayList to Array](https://github.com/zed1025/java-library-notes/blob/master/ArrayListToArray.java)
 
